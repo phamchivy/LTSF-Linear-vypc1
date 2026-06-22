@@ -68,6 +68,11 @@ class Model(nn.Module):
             # Use this two lines if you want to visualize the weights
             # self.Linear_Seasonal.weight = nn.Parameter((1/self.seq_len)*torch.ones([self.pred_len,self.seq_len]))
             # self.Linear_Trend.weight = nn.Parameter((1/self.seq_len)*torch.ones([self.pred_len,self.seq_len]))
+        print("Trend:")
+        print(self.Linear_Trend.weight[0,:5])
+
+        print("Seasonal:")
+        print(self.Linear_Seasonal.weight[0,:5])
 
     def forward(self, x):
         # x: [Batch, Input length, Channel]

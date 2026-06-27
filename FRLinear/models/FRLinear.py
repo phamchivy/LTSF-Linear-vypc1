@@ -3,6 +3,7 @@ import torch
 
 from FRLinear.models.backbones.dlinear_backbone import DLinearBackbone
 from FRLinear.models.decomposition.ma_decomposition import MADecomposition
+from FRLinear.models.decomposition.adaptive_ma import AdaptiveMADecomposition
 
 class Model(nn.Module):
 
@@ -18,6 +19,18 @@ class Model(nn.Module):
 
         self.pred_len = configs.pred_len
         self.enc_in = configs.enc_in
+
+        self.trend_decomposition = AdaptiveMADecomposition(
+            kernel_sizes=[21,31,41]
+        )
+
+        self.seasonal_decomposition = AdaptiveMADecomposition(
+            kernel_sizes=[5,9,13]
+        )
+
+        self.mixed_decomposition = AdaptiveMADecomposition(
+            kernel_sizes=[11,21,31]
+        )
 
         if configs.decomposition == "ma":
             self.decomposition = MADecomposition()
@@ -41,28 +54,49 @@ class Model(nn.Module):
 
         MIXED_IDX = [1,3,4,5]     # HULL MULL LUFL LULL
 
-        trend_trend = trend[:,:,TREND_IDX]
-        seasonal_trend = seasonal[:,:,TREND_IDX]
+        trend_feature = x[:, :, TREND_IDX]
+        seasonal_feature = x[:, :, SEASONAL_IDX]
+        mixed_feature = x[:, :, MIXED_IDX]
 
-        trend_seasonal = trend[:,:,SEASONAL_IDX]
-        seasonal_seasonal = seasonal[:,:,SEASONAL_IDX]
+        # ===============================
+        # Trend group
+        # ===============================
 
-        trend_mixed = trend[:,:,MIXED_IDX]
-        seasonal_mixed = seasonal[:,:,MIXED_IDX]
+        trend_t, seasonal_t, _ = self.trend_decomposition(
+            trend_feature
+        )
 
         out_trend = self.trend_backbone(
-            trend_trend,
-            seasonal_trend
+            trend_t,
+            seasonal_t
+        )
+
+
+        # ===============================
+        # Seasonal group
+        # ===============================
+
+        trend_s, seasonal_s, _ = self.seasonal_decomposition(
+            seasonal_feature
         )
 
         out_seasonal = self.seasonal_backbone(
-            trend_seasonal,
-            seasonal_seasonal
+            trend_s,
+            seasonal_s
+        )
+
+
+        # ===============================
+        # Mixed group
+        # ===============================
+
+        trend_m, seasonal_m, _ = self.mixed_decomposition(
+            mixed_feature
         )
 
         out_mixed = self.mixed_backbone(
-            trend_mixed,
-            seasonal_mixed
+            trend_m,
+            seasonal_m
         )
 
         B = x.size(0)
@@ -74,10 +108,8 @@ class Model(nn.Module):
             device=x.device
         )
 
-        out[:,:,TREND_IDX] = out_trend
-
-        out[:,:,SEASONAL_IDX] = out_seasonal
-
-        out[:,:,MIXED_IDX] = out_mixed
+        out[:, :, TREND_IDX] = out_trend
+        out[:, :, SEASONAL_IDX] = out_seasonal
+        out[:, :, MIXED_IDX] = out_mixed
 
         return out

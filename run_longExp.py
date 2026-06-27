@@ -83,14 +83,9 @@ parser.add_argument(
     '--decomposition',
     type=str,
     default='ma',
-    help='ma, fft, wavelet'
+    help='ma'
 )
 
-parser.add_argument(
-    '--svd_rank',
-    type=int,
-    default=2
-)
 
 args = parser.parse_args()
 

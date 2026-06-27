@@ -1,5 +1,5 @@
 from data_provider.data_factory import data_provider
-from dream_research.models import DREAM, DREAM_STL
+from FRLinear.models import FRLinear
 from exp.exp_basic import Exp_Basic
 from models import Informer, Autoformer, Transformer, DLinear, Linear, NLinear
 from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop
@@ -32,8 +32,7 @@ class Exp_Main(Exp_Basic):
             'DLinear': DLinear,
             'NLinear': NLinear,
             'Linear': Linear,
-            'DREAM_STL': DREAM_STL,
-            'DREAM': DREAM,
+            'FRLinear': FRLinear,
         }
         model = model_dict[self.args.model].Model(self.args).float()
 
@@ -70,7 +69,7 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        if 'Linear' or 'DREAM_STL' or 'DREAM' in self.args.model:
+                        if 'Linear' or 'FRLinear' in self.args.model:
                             outputs = self.model(batch_x)
                         else:
                             if self.args.output_attention:
@@ -78,7 +77,7 @@ class Exp_Main(Exp_Basic):
                             else:
                                 outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 else:
-                    if 'Linear' or 'DREAM_STL' or 'DREAM' in self.args.model:
+                    if 'Linear' or 'FRLinear' in self.args.model:
                         outputs = self.model(batch_x)
                     else:
                         if self.args.output_attention:
@@ -142,7 +141,7 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        if 'Linear' or 'DREAM_STL' or 'DREAM' in self.args.model:
+                        if 'Linear' or 'FRLinear' in self.args.model:
                             outputs = self.model(batch_x)
                         else:
                             if self.args.output_attention:
@@ -156,7 +155,7 @@ class Exp_Main(Exp_Basic):
                         loss = criterion(outputs, batch_y)
                         train_loss.append(loss.item())
                 else:
-                    if 'Linear' or 'DREAM_STL' or 'DREAM' in self.args.model:
+                    if 'Linear' or 'FRLinear' in self.args.model:
                             outputs = self.model(batch_x)
                     else:
                         if self.args.output_attention:
@@ -241,7 +240,7 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        if 'Linear' or 'DREAM_STL' or 'DREAM' in self.args.model:
+                        if 'Linear' or 'FRLinear' in self.args.model:
                             outputs = self.model(batch_x)
                         else:
                             if self.args.output_attention:
@@ -249,7 +248,7 @@ class Exp_Main(Exp_Basic):
                             else:
                                 outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 else:
-                    if 'Linear' or 'DREAM_STL' or 'DREAM' in self.args.model:
+                    if 'Linear' or 'FRLinear' in self.args.model:
                             outputs = self.model(batch_x)
                     else:
                         if self.args.output_attention:
@@ -329,7 +328,7 @@ class Exp_Main(Exp_Basic):
                 # encoder - decoder
                 if self.args.use_amp:
                     with torch.cuda.amp.autocast():
-                        if 'Linear' or 'DREAM_STL' or 'DREAM' in self.args.model:
+                        if 'Linear' or 'FRLinear' in self.args.model:
                             outputs = self.model(batch_x)
                         else:
                             if self.args.output_attention:
@@ -337,7 +336,7 @@ class Exp_Main(Exp_Basic):
                             else:
                                 outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 else:
-                    if 'Linear' or 'DREAM_STL' or 'DREAM' in self.args.model:
+                    if 'Linear' or 'FRLinear' in self.args.model:
                         outputs = self.model(batch_x)
                     else:
                         if self.args.output_attention:

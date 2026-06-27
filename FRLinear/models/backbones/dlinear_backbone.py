@@ -4,12 +4,12 @@ import torch.nn as nn
 
 class DLinearBackbone(nn.Module):
 
-    def __init__(self, configs):
+    def __init__(self, configs, channels):
         super().__init__()
 
         self.seq_len = configs.seq_len
         self.pred_len = configs.pred_len
-        self.channels = configs.enc_in
+        self.channels = channels
         self.individual = configs.individual
 
         if self.individual:

@@ -1,0 +1,59 @@
+{
+    "trend": [
+        6
+    ],
+    "seasonal": [
+        0,
+        2
+    ],
+    "mixed": [
+        1,
+        3,
+        4,
+        5
+    ],
+    "detail": {
+        "HUFL": {
+            "index": 0,
+            "trend_score": 0.3231567842159939,
+            "seasonal_score": 0.12293481969685988,
+            "regime": "seasonal"
+        },
+        "HULL": {
+            "index": 1,
+            "trend_score": 0.6041233197412592,
+            "seasonal_score": 0.026188750931425066,
+            "regime": "mixed"
+        },
+        "MUFL": {
+            "index": 2,
+            "trend_score": 0.33821227804696075,
+            "seasonal_score": 0.23133508940520636,
+            "regime": "seasonal"
+        },
+        "MULL": {
+            "index": 3,
+            "trend_score": 0.6312638095301266,
+            "seasonal_score": 0.053959665137997395,
+            "regime": "mixed"
+        },
+        "LUFL": {
+            "index": 4,
+            "trend_score": 0.44059019393322046,
+            "seasonal_score": 0.00174791539183335,
+            "regime": "mixed"
+        },
+        "LULL": {
+            "index": 5,
+            "trend_score": 0.7334630719085605,
+            "seasonal_score": 0.003310610713979838,
+            "regime": "mixed"
+        },
+        "OT": {
+            "index": 6,
+            "trend_score": 0.9007869989034732,
+            "seasonal_score": 0.001193516415437635,
+            "regime": "trend"
+        }
+    }
+}

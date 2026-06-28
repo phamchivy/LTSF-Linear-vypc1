@@ -1,149 +1,217 @@
 import os
 import json
-import argparse
 import numpy as np
 import pandas as pd
-from scipy.signal import periodogram
+
+from pathlib import Path
 from statsmodels.tsa.stattools import acf
+from scipy.fft import fft, fftfreq
+
+from src.config import DATASET_DIR, DATASET
+
+SAVE_DIR = "../regime_cache"
+os.makedirs(SAVE_DIR, exist_ok=True)
 
 
-def compute_scores(x):
-
+def extract_feature_vector(x):
     x = np.asarray(x)
 
-    # ===== Trend score =====
-    acf_values = acf(
+    ############################
+    # ACF
+    ############################
+
+    acf_vals = acf(
         x,
-        nlags=min(500, len(x) // 2),
+        nlags=336,
         fft=True
     )
 
-    trend_score = np.mean(acf_values[1:50])
+    trend_score = np.mean(
+        np.abs(acf_vals[:100])
+    )
 
-    # ===== Seasonal score =====
-    freq, power = periodogram(x)
+    acf_24 = abs(acf_vals[24])
+    acf_48 = abs(acf_vals[48])
+    acf_168 = abs(acf_vals[168])
 
-    if len(power) < 2:
-        seasonal_score = 0
-    else:
-        idx = np.argmax(power[1:]) + 1
-        seasonal_score = power[idx] / (
-            power.sum() + 1e-8
+    ############################
+    # FFT
+    ############################
+
+    N = len(x)
+
+    yf = np.abs(
+        fft(x)
+    )[:N // 2]
+
+    xf = fftfreq(
+        N,
+        d=1
+    )[:N // 2]
+
+    power = yf ** 2
+    total_power = power.sum() + 1e-8
+
+    idx24 = np.argmin(
+        np.abs(xf - 1 / 24)
+    )
+
+    idx12 = np.argmin(
+        np.abs(xf - 1 / 12)
+    )
+
+    idx8 = np.argmin(
+        np.abs(xf - 1 / 8)
+    )
+
+    season_score = (
+        power[idx24]
+        + power[idx12]
+        + power[idx8]
+    ) / total_power
+
+    return np.array(
+        [
+            trend_score,
+            acf_24,
+            acf_48,
+            acf_168,
+            season_score
+        ]
+    )
+
+
+def main():
+
+    DATA_PATH = DATASET_DIR / DATASET
+    dataset_name = Path(DATASET).stem
+
+    df = pd.read_csv(DATA_PATH)
+
+    feature_cols = list(
+        df.columns[1:]
+    )
+
+    feature_vectors = []
+
+    for col in feature_cols:
+        vec = extract_feature_vector(
+            df[col].values
+        )
+        feature_vectors.append(vec)
+
+    feature_vectors = np.stack(
+        feature_vectors
+    )
+
+    trend_scores = feature_vectors[:, 0]
+    season_scores = feature_vectors[:, 4]
+
+    ############################
+    # Trend
+    ############################
+
+    trend_idx = int(
+        np.argmax(trend_scores)
+    )
+
+    ############################
+    # Seasonal
+    ############################
+
+    q = np.quantile(
+        season_scores,
+        0.70
+    )
+
+    seasonal_idx = []
+
+    for i in range(len(feature_cols)):
+
+        if i == trend_idx:
+            continue
+
+        if season_scores[i] >= q:
+            seasonal_idx.append(i)
+
+    if len(seasonal_idx) == 0:
+
+        tmp = season_scores.copy()
+        tmp[trend_idx] = -1
+
+        seasonal_idx.append(
+            int(np.argmax(tmp))
         )
 
-    return trend_score, seasonal_score
+    ############################
+    # Mixed
+    ############################
 
+    mixed_idx = []
 
-def assign_regime(
-        trend_score,
-        seasonal_score,
-        trend_th=0.8,
-        seasonal_th=0.3
-):
+    for i in range(len(feature_cols)):
 
-    if trend_score > trend_th \
-            and seasonal_score < seasonal_th:
-        return "trend"
+        if i == trend_idx:
+            continue
 
-    elif seasonal_score > seasonal_th \
-            and trend_score < trend_th:
-        return "seasonal"
+        if i in seasonal_idx:
+            continue
 
-    else:
-        return "mixed"
+        mixed_idx.append(i)
 
-
-def main(args):
-
-    data = pd.read_csv(args.path)
-
-    feature_names = list(data.columns)[1:]
-
-    regimes = {
-        "trend": [],
-        "seasonal": [],
-        "mixed": []
+    result = {
+        "trend": [trend_idx],
+        "seasonal": seasonal_idx,
+        "mixed": mixed_idx,
+        "detail": {}
     }
 
-    detail = {}
+    for i, col in enumerate(feature_cols):
 
-    for idx, col in enumerate(feature_names):
+        if i in result["trend"]:
+            regime = "trend"
+        elif i in result["seasonal"]:
+            regime = "seasonal"
+        else:
+            regime = "mixed"
 
-        ts = data[col].values
-
-        trend_score, seasonal_score = \
-            compute_scores(ts)
-
-        regime = assign_regime(
-            trend_score,
-            seasonal_score
-        )
-
-        regimes[regime].append(idx)
-
-        detail[col] = {
-            "index": idx,
-            "trend_score": float(trend_score),
-            "seasonal_score": float(seasonal_score),
-            "regime": regime
+        result["detail"][col] = {
+            "index": i,
+            "trend_score":
+                float(trend_scores[i]),
+            "seasonal_score":
+                float(season_scores[i]),
+            "regime":
+                regime
         }
 
         print(
             f"{col:5s}"
-            f" trend={trend_score:.3f}"
-            f" seasonal={seasonal_score:.3f}"
+            f" trend={trend_scores[i]:.3f}"
+            f" seasonal={season_scores[i]:.3f}"
             f" -> {regime}"
         )
 
-    os.makedirs(
-        args.save_dir,
-        exist_ok=True
+    save_path = (
+        Path(SAVE_DIR)
+        / f"{dataset_name}.json"
     )
 
-    save_file = os.path.join(
-        args.save_dir,
-        f"{args.name}.json"
-    )
-
-    with open(save_file, "w") as f:
+    with open(
+        save_path,
+        "w",
+        encoding="utf-8"
+    ) as f:
         json.dump(
-            {
-                "trend": regimes["trend"],
-                "seasonal": regimes["seasonal"],
-                "mixed": regimes["mixed"],
-                "detail": detail
-            },
+            result,
             f,
             indent=4
         )
 
     print()
     print("Saved to:")
-    print(save_file)
+    print(save_path)
 
 
 if __name__ == "__main__":
-
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--path",
-        type=str,
-        required=True
-    )
-
-    parser.add_argument(
-        "--name",
-        type=str,
-        required=True
-    )
-
-    parser.add_argument(
-        "--save_dir",
-        type=str,
-        default="../regime_cache"
-    )
-
-    args = parser.parse_args()
-
-    main(args)
+    main()

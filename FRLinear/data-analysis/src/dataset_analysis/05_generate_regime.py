@@ -12,8 +12,43 @@ from src.config import DATASET_DIR, DATASET
 SAVE_DIR = "../regime_cache"
 os.makedirs(SAVE_DIR, exist_ok=True)
 
+# ============================================================
+# FIX #1: Sampling-rate-aware period detection
+# ============================================================
+# Bug gốc: idx24/idx12/idx8 dùng fftfreq(N, d=1) rồi tìm tần số
+# gần 1/24, 1/12, 1/8 -- điều này ngầm giả định 1 sample = 1 giờ.
+# Với ETTh1/ETTh2 (sample = 1 giờ) thì đúng, nhưng với ETTm1/ETTm2
+# (sample = 15 phút, tức 4 sample/giờ) thì "period 24 sample" chỉ
+# là 6 giờ, không phải 1 ngày -> season_score đo sai chu kỳ.
+#
+# Sửa: quy đổi chu kỳ giờ mong muốn (24h/12h/8h) sang số sample
+# tương ứng theo tần suất lấy mẫu thực tế của dataset.
 
-def extract_feature_vector(x):
+def infer_samples_per_hour(dataset_filename: str) -> int:
+    """
+    Suy ra số sample/giờ dựa trên tên file dataset.
+    ETTh* -> lấy mẫu theo giờ -> 1 sample/giờ
+    ETTm* -> lấy mẫu 15 phút -> 4 sample/giờ
+
+    Nếu dùng dataset khác không theo quy ước ETT, hãy chỉnh lại
+    hàm này hoặc truyền samples_per_hour thủ công.
+    """
+    name = Path(dataset_filename).stem.lower()
+
+    if "ettm" in name:
+        return 4
+    elif "etth" in name:
+        return 1
+    else:
+        print(
+            f"[WARNING] Không nhận diện được tần suất lấy mẫu từ "
+            f"tên file '{dataset_filename}'. Mặc định dùng 1 sample/giờ. "
+            f"Hãy kiểm tra lại season_score có ý nghĩa đúng không."
+        )
+        return 1
+
+
+def extract_feature_vector(x, samples_per_hour: int):
     x = np.asarray(x)
 
     ############################
@@ -52,16 +87,23 @@ def extract_feature_vector(x):
     power = yf ** 2
     total_power = power.sum() + 1e-8
 
+    # --- FIX #1 áp dụng ở đây ---
+    # Quy đổi 24h / 12h / 8h sang số sample thực tế, thay vì hardcode
+    # số sample = số giờ.
+    period_24h_samples = 24 * samples_per_hour
+    period_12h_samples = 12 * samples_per_hour
+    period_8h_samples = 8 * samples_per_hour
+
     idx24 = np.argmin(
-        np.abs(xf - 1 / 24)
+        np.abs(xf - 1 / period_24h_samples)
     )
 
     idx12 = np.argmin(
-        np.abs(xf - 1 / 12)
+        np.abs(xf - 1 / period_12h_samples)
     )
 
     idx8 = np.argmin(
-        np.abs(xf - 1 / 8)
+        np.abs(xf - 1 / period_8h_samples)
     )
 
     season_score = (
@@ -81,10 +123,51 @@ def extract_feature_vector(x):
     )
 
 
+# ============================================================
+# FIX #2: Minimum group size constraint
+# ============================================================
+# Bug gốc: seasonal/mixed có thể co lại còn 1 kênh (thấy ở
+# ETTh2.json: mixed=[2], ETTm2.json: seasonal=[6]). Khi đó
+# individual=False khiến 1 nn.Linear "share" cho đúng 1 kênh,
+# nghĩa là mất hoàn toàn lợi ích regularization của weight-sharing
+# -> tương đương individual=True cho riêng kênh đó, dễ overfit.
+#
+# Sửa: sau khi gán nhãn theo quantile, nếu 1 nhóm nhỏ hơn
+# MIN_GROUP_SIZE, "mượn" kênh biên giới (gần ngưỡng nhất) từ
+# nhóm còn lại để đạt kích thước tối thiểu.
+
+MIN_GROUP_SIZE = 2
+
+
+def enforce_min_group_size(seasonal_idx, mixed_idx, season_scores, min_size=MIN_GROUP_SIZE):
+    seasonal_idx = list(seasonal_idx)
+    mixed_idx = list(mixed_idx)
+
+    # Case 1: seasonal quá nhỏ -> kéo từ mixed kênh có season_score
+    # cao nhất (tức "gần seasonal nhất" trong số các kênh mixed).
+    while len(seasonal_idx) < min_size and len(mixed_idx) > 0:
+        best = max(mixed_idx, key=lambda i: season_scores[i])
+        mixed_idx.remove(best)
+        seasonal_idx.append(best)
+
+    # Case 2: mixed quá nhỏ -> trả lại từ seasonal kênh có
+    # season_score thấp nhất (tức "yếu seasonal nhất" trong nhóm đó),
+    # miễn là không làm seasonal tụt xuống dưới min_size.
+    while len(mixed_idx) < min_size and len(seasonal_idx) > min_size:
+        worst = min(seasonal_idx, key=lambda i: season_scores[i])
+        seasonal_idx.remove(worst)
+        mixed_idx.append(worst)
+
+    return seasonal_idx, mixed_idx
+
+
 def main():
 
     DATA_PATH = DATASET_DIR / DATASET
     dataset_name = Path(DATASET).stem
+
+    samples_per_hour = infer_samples_per_hour(DATASET)
+    print(f"Dataset: {DATASET} -> samples_per_hour = {samples_per_hour}")
 
     df = pd.read_csv(DATA_PATH)
 
@@ -96,7 +179,8 @@ def main():
 
     for col in feature_cols:
         vec = extract_feature_vector(
-            df[col].values
+            df[col].values,
+            samples_per_hour=samples_per_hour
         )
         feature_vectors.append(vec)
 
@@ -109,6 +193,10 @@ def main():
 
     ############################
     # Trend
+    # (Giữ nguyên logic winner-take-all argmax như bản gốc.
+    #  Lưu ý: đây vẫn là giả định cấu trúc chưa được kiểm định --
+    #  xem ghi chú "elbow gap" đã bàn riêng, không nằm trong phạm vi
+    #  2 fix lần này.)
     ############################
 
     trend_idx = int(
@@ -159,6 +247,14 @@ def main():
 
         mixed_idx.append(i)
 
+    # --- FIX #2 áp dụng ở đây ---
+    seasonal_idx, mixed_idx = enforce_min_group_size(
+        seasonal_idx,
+        mixed_idx,
+        season_scores,
+        min_size=MIN_GROUP_SIZE
+    )
+
     result = {
         "trend": [trend_idx],
         "seasonal": seasonal_idx,
@@ -188,7 +284,7 @@ def main():
         print(
             f"{col:5s}"
             f" trend={trend_scores[i]:.3f}"
-            f" seasonal={season_scores[i]:.3f}"
+            f" seasonal={season_scores[i]:.6f}"
             f" -> {regime}"
         )
 

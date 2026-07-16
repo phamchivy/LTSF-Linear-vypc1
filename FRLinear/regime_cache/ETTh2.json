@@ -1,23 +1,23 @@
 {
     "trend": [
-        1,
-        4,
-        5,
-        3
+        4
     ],
     "seasonal": [
-        0,
-        6
+        6,
+        0
     ],
     "mixed": [
-        2
+        1,
+        2,
+        3,
+        5
     ],
     "detail": {
         "HUFL": {
             "index": 0,
             "trend_score": 0.6237210357399812,
             "seasonal_score": 0.001675241593709227,
-            "regime": "mixed"
+            "regime": "seasonal"
         },
         "HULL": {
             "index": 1,
@@ -28,7 +28,7 @@
         "MUFL": {
             "index": 2,
             "trend_score": 0.8254454392141471,
-            "seasonal_score": 0.0010883923973211793,
+            "seasonal_score": 0.0010883923973211789,
             "regime": "mixed"
         },
         "MULL": {
@@ -40,12 +40,12 @@
         "LUFL": {
             "index": 4,
             "trend_score": 0.9262794658881627,
-            "seasonal_score": 0.003860113951263631,
+            "seasonal_score": 0.00386011395126363,
             "regime": "trend"
         },
         "LULL": {
             "index": 5,
-            "trend_score": 0.9200005162306091,
+            "trend_score": 0.9200005162306093,
             "seasonal_score": 0.0006546941613151597,
             "regime": "mixed"
         },

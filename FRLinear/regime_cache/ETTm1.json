@@ -1,6 +1,5 @@
 {
     "trend": [
-        5,
         6
     ],
     "seasonal": [
@@ -10,49 +9,50 @@
     "mixed": [
         1,
         3,
-        4
+        4,
+        5
     ],
     "detail": {
         "HUFL": {
             "index": 0,
             "trend_score": 0.36831371600416396,
-            "seasonal_score": 0.0010466483558391074,
+            "seasonal_score": 0.12270503284440096,
             "regime": "seasonal"
         },
         "HULL": {
             "index": 1,
-            "trend_score": 0.6932041427342444,
-            "seasonal_score": 0.00032305275560996993,
+            "trend_score": 0.6932041427342445,
+            "seasonal_score": 0.025169715868847985,
             "regime": "mixed"
         },
         "MUFL": {
             "index": 2,
             "trend_score": 0.3821681279964043,
-            "seasonal_score": 0.0012226344891569988,
+            "seasonal_score": 0.23021329054899867,
             "regime": "seasonal"
         },
         "MULL": {
             "index": 3,
             "trend_score": 0.7107534184950475,
-            "seasonal_score": 0.0007266609076366248,
+            "seasonal_score": 0.05253256667004046,
             "regime": "mixed"
         },
         "LUFL": {
             "index": 4,
-            "trend_score": 0.5123723427486464,
-            "seasonal_score": 0.0004315355907710868,
+            "trend_score": 0.5123723427486463,
+            "seasonal_score": 0.0018314561695197172,
             "regime": "mixed"
         },
         "LULL": {
             "index": 5,
-            "trend_score": 0.8391799302668049,
-            "seasonal_score": 8.32115472980083e-05,
+            "trend_score": 0.839179930266805,
+            "seasonal_score": 0.003348647024938812,
             "regime": "mixed"
         },
         "OT": {
             "index": 6,
-            "trend_score": 0.953390548011194,
-            "seasonal_score": 4.967686866524681e-06,
+            "trend_score": 0.9533905480111943,
+            "seasonal_score": 0.0011895675075286635,
             "regime": "trend"
         }
     }

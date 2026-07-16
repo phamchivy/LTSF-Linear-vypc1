@@ -1,0 +1,383 @@
+=== START RUNNING ETTh2_336_720 ===
+Args in experiment:
+Namespace(is_training=1, train_only=False, model_id='ETTh2_336_720_1', model='FRLinear', data='ETTh2', root_path='./dataset/', data_path='ETTh2.csv', features='M', target='OT', freq='h', checkpoints='./checkpoints/', seq_len=336, label_len=48, pred_len=720, individual=False, embed_type=0, enc_in=7, dec_in=7, c_out=7, d_model=512, n_heads=8, e_layers=2, d_layers=1, d_ff=2048, moving_avg=25, factor=1, distil=True, dropout=0.05, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=10, itr=5, train_epochs=20, batch_size=32, patience=3, learning_rate=0.005, des='Exp', loss='mse', lradj='type1', use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+Trend:
+tensor([ 0.0091, -0.0377, -0.0512,  0.0237, -0.0492], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([-0.0403,  0.0015,  0.0265,  0.0236,  0.0077], grad_fn=<SliceBackward0>)
+Trend:
+tensor([ 0.0345, -0.0244,  0.0057, -0.0273, -0.0138], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([-0.0258, -0.0185, -0.0316, -0.0387, -0.0231], grad_fn=<SliceBackward0>)
+Trend:
+tensor([ 0.0163, -0.0263, -0.0107,  0.0453, -0.0022], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([-0.0051, -0.0388,  0.0197,  0.0522,  0.0166], grad_fn=<SliceBackward0>)
+>>>>>>>start training : ETTh2_336_720_1_FRLinear_ETTh2_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 7585
+val 2161
+test 2161
+	iters: 100, epoch: 1 | loss: 0.7845008
+	speed: 0.0358s/iter; left time: 166.1946s
+	iters: 200, epoch: 1 | loss: 0.9305099
+	speed: 0.0157s/iter; left time: 71.4553s
+Epoch: 1 cost time: 4.373876333236694
+Epoch: 1, Steps: 237 | Train Loss: 0.7923897 Vali Loss: 0.6956576 Test Loss: 0.7304447
+Validation loss decreased (inf --> 0.695658).  Saving model ...
+Updating learning rate to 0.005
+	iters: 100, epoch: 2 | loss: 0.8796168
+	speed: 0.0383s/iter; left time: 168.8825s
+	iters: 200, epoch: 2 | loss: 0.7536684
+	speed: 0.0115s/iter; left time: 49.2971s
+Epoch: 2 cost time: 3.056081533432007
+Epoch: 2, Steps: 237 | Train Loss: 0.7734405 Vali Loss: 0.7119554 Test Loss: 0.8546473
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.0025
+	iters: 100, epoch: 3 | loss: 0.5337111
+	speed: 0.0389s/iter; left time: 162.0308s
+	iters: 200, epoch: 3 | loss: 0.7881412
+	speed: 0.0130s/iter; left time: 52.6764s
+Epoch: 3 cost time: 3.432382106781006
+Epoch: 3, Steps: 237 | Train Loss: 0.7244479 Vali Loss: 0.7282737 Test Loss: 1.0252753
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 0.00125
+	iters: 100, epoch: 4 | loss: 0.5078816
+	speed: 0.0501s/iter; left time: 197.0387s
+	iters: 200, epoch: 4 | loss: 0.3931517
+	speed: 0.0116s/iter; left time: 44.4045s
+Epoch: 4 cost time: 3.080435276031494
+Epoch: 4, Steps: 237 | Train Loss: 0.7035405 Vali Loss: 0.6575601 Test Loss: 0.7028111
+Validation loss decreased (0.695658 --> 0.657560).  Saving model ...
+Updating learning rate to 0.000625
+	iters: 100, epoch: 5 | loss: 0.8773689
+	speed: 0.0390s/iter; left time: 144.0405s
+	iters: 200, epoch: 5 | loss: 0.9004625
+	speed: 0.0116s/iter; left time: 41.7549s
+Epoch: 5 cost time: 3.08455228805542
+Epoch: 5, Steps: 237 | Train Loss: 0.6891345 Vali Loss: 0.6751866 Test Loss: 0.8053710
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.0003125
+	iters: 100, epoch: 6 | loss: 1.0195831
+	speed: 0.0456s/iter; left time: 157.5958s
+	iters: 200, epoch: 6 | loss: 0.8474558
+	speed: 0.0167s/iter; left time: 56.0499s
+Epoch: 6 cost time: 4.212988376617432
+Epoch: 6, Steps: 237 | Train Loss: 0.6835756 Vali Loss: 0.6986346 Test Loss: 0.9687892
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 0.00015625
+	iters: 100, epoch: 7 | loss: 0.9145986
+	speed: 0.0387s/iter; left time: 124.7177s
+	iters: 200, epoch: 7 | loss: 0.4981998
+	speed: 0.0115s/iter; left time: 35.7856s
+Epoch: 7 cost time: 3.073019027709961
+Epoch: 7, Steps: 237 | Train Loss: 0.6805649 Vali Loss: 0.6940086 Test Loss: 0.8942637
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : ETTh2_336_720_1_FRLinear_ETTh2_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 2161
+mse:0.7024785876274109, mae:0.5957064628601074
+Use GPU: cuda:0
+Trend:
+tensor([-0.0420, -0.0153,  0.0302,  0.0383, -0.0174], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([-0.0021, -0.0193, -0.0401,  0.0210, -0.0041], grad_fn=<SliceBackward0>)
+Trend:
+tensor([ 0.0539,  0.0019, -0.0078, -0.0078,  0.0028], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([-0.0428, -0.0192, -0.0336,  0.0051, -0.0537], grad_fn=<SliceBackward0>)
+Trend:
+tensor([ 0.0502,  0.0031, -0.0015, -0.0102, -0.0392], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([-0.0487, -0.0405, -0.0123, -0.0413, -0.0386], grad_fn=<SliceBackward0>)
+>>>>>>>start training : ETTh2_336_720_1_FRLinear_ETTh2_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_1>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 7585
+val 2161
+test 2161
+	iters: 100, epoch: 1 | loss: 1.0605401
+	speed: 0.0197s/iter; left time: 91.5534s
+	iters: 200, epoch: 1 | loss: 0.7291977
+	speed: 0.0167s/iter; left time: 75.9960s
+Epoch: 1 cost time: 4.3841962814331055
+Epoch: 1, Steps: 237 | Train Loss: 0.7938587 Vali Loss: 0.7109361 Test Loss: 0.9213836
+Validation loss decreased (inf --> 0.710936).  Saving model ...
+Updating learning rate to 0.005
+	iters: 100, epoch: 2 | loss: 0.6380357
+	speed: 0.0428s/iter; left time: 188.6235s
+	iters: 200, epoch: 2 | loss: 0.7451652
+	speed: 0.0118s/iter; left time: 50.7836s
+Epoch: 2 cost time: 3.1522350311279297
+Epoch: 2, Steps: 237 | Train Loss: 0.7732402 Vali Loss: 0.7347367 Test Loss: 1.1161442
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.0025
+	iters: 100, epoch: 3 | loss: 0.8253624
+	speed: 0.0409s/iter; left time: 170.4087s
+	iters: 200, epoch: 3 | loss: 1.0324194
+	speed: 0.0125s/iter; left time: 50.7068s
+Epoch: 3 cost time: 3.440523624420166
+Epoch: 3, Steps: 237 | Train Loss: 0.7236480 Vali Loss: 0.6974761 Test Loss: 0.6710405
+Validation loss decreased (0.710936 --> 0.697476).  Saving model ...
+Updating learning rate to 0.00125
+	iters: 100, epoch: 4 | loss: 0.6475546
+	speed: 0.0540s/iter; left time: 212.1670s
+	iters: 200, epoch: 4 | loss: 0.7686720
+	speed: 0.0118s/iter; left time: 45.0942s
+Epoch: 4 cost time: 3.1544206142425537
+Epoch: 4, Steps: 237 | Train Loss: 0.7043790 Vali Loss: 0.6812530 Test Loss: 0.8006742
+Validation loss decreased (0.697476 --> 0.681253).  Saving model ...
+Updating learning rate to 0.000625
+	iters: 100, epoch: 5 | loss: 0.4976721
+	speed: 0.0415s/iter; left time: 153.2045s
+	iters: 200, epoch: 5 | loss: 0.6562390
+	speed: 0.0119s/iter; left time: 42.8317s
+Epoch: 5 cost time: 3.1817569732666016
+Epoch: 5, Steps: 237 | Train Loss: 0.6893633 Vali Loss: 0.6968848 Test Loss: 0.9119419
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.0003125
+	iters: 100, epoch: 6 | loss: 0.4690129
+	speed: 0.0500s/iter; left time: 172.8174s
+	iters: 200, epoch: 6 | loss: 0.7408741
+	speed: 0.0148s/iter; left time: 49.6593s
+Epoch: 6 cost time: 4.09864068031311
+Epoch: 6, Steps: 237 | Train Loss: 0.6835503 Vali Loss: 0.6985825 Test Loss: 0.9029389
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 0.00015625
+	iters: 100, epoch: 7 | loss: 0.7093657
+	speed: 0.0406s/iter; left time: 130.5776s
+	iters: 200, epoch: 7 | loss: 0.4352053
+	speed: 0.0116s/iter; left time: 36.0914s
+Epoch: 7 cost time: 3.1027538776397705
+Epoch: 7, Steps: 237 | Train Loss: 0.6804629 Vali Loss: 0.6848792 Test Loss: 0.8551766
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : ETTh2_336_720_1_FRLinear_ETTh2_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_1<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 2161
+mse:0.8001323342323303, mae:0.6310974359512329
+Use GPU: cuda:0
+Trend:
+tensor([ 0.0338, -0.0186, -0.0002, -0.0502,  0.0427], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([ 0.0099, -0.0024, -0.0167, -0.0136, -0.0377], grad_fn=<SliceBackward0>)
+Trend:
+tensor([-0.0280,  0.0405,  0.0362,  0.0175, -0.0362], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([ 0.0495,  0.0094,  0.0091,  0.0388, -0.0068], grad_fn=<SliceBackward0>)
+Trend:
+tensor([-0.0225,  0.0036,  0.0427, -0.0388,  0.0391], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([-0.0448, -0.0241,  0.0417, -0.0317,  0.0520], grad_fn=<SliceBackward0>)
+>>>>>>>start training : ETTh2_336_720_1_FRLinear_ETTh2_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_2>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 7585
+val 2161
+test 2161
+	iters: 100, epoch: 1 | loss: 0.8959798
+	speed: 0.0216s/iter; left time: 100.1048s
+	iters: 200, epoch: 1 | loss: 0.9911203
+	speed: 0.0152s/iter; left time: 69.1731s
+Epoch: 1 cost time: 4.2362220287323
+Epoch: 1, Steps: 237 | Train Loss: 0.7975605 Vali Loss: 0.7073943 Test Loss: 0.9395330
+Validation loss decreased (inf --> 0.707394).  Saving model ...
+Updating learning rate to 0.005
+	iters: 100, epoch: 2 | loss: 1.0514501
+	speed: 0.0416s/iter; left time: 183.4206s
+	iters: 200, epoch: 2 | loss: 0.8037929
+	speed: 0.0115s/iter; left time: 49.5007s
+Epoch: 2 cost time: 3.128516912460327
+Epoch: 2, Steps: 237 | Train Loss: 0.7766347 Vali Loss: 0.7135903 Test Loss: 0.7144004
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.0025
+	iters: 100, epoch: 3 | loss: 0.7543713
+	speed: 0.0408s/iter; left time: 169.9047s
+	iters: 200, epoch: 3 | loss: 0.8033515
+	speed: 0.0155s/iter; left time: 63.1760s
+Epoch: 3 cost time: 3.7213118076324463
+Epoch: 3, Steps: 237 | Train Loss: 0.7273243 Vali Loss: 0.6749560 Test Loss: 0.7309216
+Validation loss decreased (0.707394 --> 0.674956).  Saving model ...
+Updating learning rate to 0.00125
+	iters: 100, epoch: 4 | loss: 0.8734269
+	speed: 0.0495s/iter; left time: 194.4004s
+	iters: 200, epoch: 4 | loss: 0.4586966
+	speed: 0.0116s/iter; left time: 44.5210s
+Epoch: 4 cost time: 3.1553549766540527
+Epoch: 4, Steps: 237 | Train Loss: 0.7003667 Vali Loss: 0.6879478 Test Loss: 0.7940764
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.000625
+	iters: 100, epoch: 5 | loss: 0.6877990
+	speed: 0.0412s/iter; left time: 152.0389s
+	iters: 200, epoch: 5 | loss: 0.6595967
+	speed: 0.0117s/iter; left time: 42.0076s
+Epoch: 5 cost time: 3.1534807682037354
+Epoch: 5, Steps: 237 | Train Loss: 0.6903291 Vali Loss: 0.6508977 Test Loss: 0.6424374
+Validation loss decreased (0.674956 --> 0.650898).  Saving model ...
+Updating learning rate to 0.0003125
+	iters: 100, epoch: 6 | loss: 0.7856559
+	speed: 0.0546s/iter; left time: 188.7482s
+	iters: 200, epoch: 6 | loss: 0.5417790
+	speed: 0.0118s/iter; left time: 39.4589s
+Epoch: 6 cost time: 3.7226734161376953
+Epoch: 6, Steps: 237 | Train Loss: 0.6833814 Vali Loss: 0.6701876 Test Loss: 0.7545438
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.00015625
+	iters: 100, epoch: 7 | loss: 0.6801342
+	speed: 0.0419s/iter; left time: 134.7710s
+	iters: 200, epoch: 7 | loss: 0.6888301
+	speed: 0.0118s/iter; left time: 36.8347s
+Epoch: 7 cost time: 3.1505067348480225
+Epoch: 7, Steps: 237 | Train Loss: 0.6804166 Vali Loss: 0.6801758 Test Loss: 0.8264434
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 7.8125e-05
+	iters: 100, epoch: 8 | loss: 0.5534653
+	speed: 0.0460s/iter; left time: 137.2269s
+	iters: 200, epoch: 8 | loss: 0.4808254
+	speed: 0.0172s/iter; left time: 49.6354s
+Epoch: 8 cost time: 4.406857252120972
+Epoch: 8, Steps: 237 | Train Loss: 0.6781885 Vali Loss: 0.6711200 Test Loss: 0.7591814
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : ETTh2_336_720_1_FRLinear_ETTh2_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_2<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 2161
+mse:0.6415647864341736, mae:0.5680305361747742
+Use GPU: cuda:0
+Trend:
+tensor([-0.0432,  0.0459, -0.0278, -0.0433, -0.0442], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([-0.0377,  0.0507,  0.0530,  0.0538,  0.0246], grad_fn=<SliceBackward0>)
+Trend:
+tensor([ 0.0361,  0.0491, -0.0424, -0.0518,  0.0270], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([-0.0182,  0.0356, -0.0297,  0.0013, -0.0137], grad_fn=<SliceBackward0>)
+Trend:
+tensor([-0.0276,  0.0134,  0.0350,  0.0103,  0.0381], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([-0.0369, -0.0062, -0.0089, -0.0165, -0.0067], grad_fn=<SliceBackward0>)
+>>>>>>>start training : ETTh2_336_720_1_FRLinear_ETTh2_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_3>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 7585
+val 2161
+test 2161
+	iters: 100, epoch: 1 | loss: 0.9065505
+	speed: 0.0150s/iter; left time: 69.5002s
+	iters: 200, epoch: 1 | loss: 0.6767929
+	speed: 0.0119s/iter; left time: 53.9524s
+Epoch: 1 cost time: 3.216165781021118
+Epoch: 1, Steps: 237 | Train Loss: 0.7931398 Vali Loss: 0.7795328 Test Loss: 1.1984564
+Validation loss decreased (inf --> 0.779533).  Saving model ...
+Updating learning rate to 0.005
+	iters: 100, epoch: 2 | loss: 0.7441259
+	speed: 0.0459s/iter; left time: 202.2126s
+	iters: 200, epoch: 2 | loss: 0.7907143
+	speed: 0.0161s/iter; left time: 69.1263s
+Epoch: 2 cost time: 4.332251071929932
+Epoch: 2, Steps: 237 | Train Loss: 0.7755418 Vali Loss: 0.7074701 Test Loss: 0.8213099
+Validation loss decreased (0.779533 --> 0.707470).  Saving model ...
+Updating learning rate to 0.0025
+	iters: 100, epoch: 3 | loss: 0.6928575
+	speed: 0.0444s/iter; left time: 185.0111s
+	iters: 200, epoch: 3 | loss: 0.6675204
+	speed: 0.0116s/iter; left time: 47.3487s
+Epoch: 3 cost time: 3.1579675674438477
+Epoch: 3, Steps: 237 | Train Loss: 0.7289859 Vali Loss: 0.6535546 Test Loss: 0.6067616
+Validation loss decreased (0.707470 --> 0.653555).  Saving model ...
+Updating learning rate to 0.00125
+	iters: 100, epoch: 4 | loss: 0.5659414
+	speed: 0.0432s/iter; left time: 169.6141s
+	iters: 200, epoch: 4 | loss: 0.7491146
+	speed: 0.0123s/iter; left time: 46.9521s
+Epoch: 4 cost time: 3.45816707611084
+Epoch: 4, Steps: 237 | Train Loss: 0.7015267 Vali Loss: 0.6760358 Test Loss: 0.7951158
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.000625
+	iters: 100, epoch: 5 | loss: 0.8823190
+	speed: 0.0539s/iter; left time: 199.1322s
+	iters: 200, epoch: 5 | loss: 0.9444913
+	speed: 0.0117s/iter; left time: 41.8892s
+Epoch: 5 cost time: 3.1839470863342285
+Epoch: 5, Steps: 237 | Train Loss: 0.6900910 Vali Loss: 0.7047538 Test Loss: 0.9072191
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 0.0003125
+	iters: 100, epoch: 6 | loss: 0.6534298
+	speed: 0.0408s/iter; left time: 141.0291s
+	iters: 200, epoch: 6 | loss: 0.6826012
+	speed: 0.0117s/iter; left time: 39.2726s
+Epoch: 6 cost time: 3.15112042427063
+Epoch: 6, Steps: 237 | Train Loss: 0.6836530 Vali Loss: 0.6858816 Test Loss: 0.8880928
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : ETTh2_336_720_1_FRLinear_ETTh2_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_3<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 2161
+mse:0.6056238412857056, mae:0.5441869497299194
+Use GPU: cuda:0
+Trend:
+tensor([ 0.0074, -0.0009, -0.0244, -0.0306,  0.0091], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([ 0.0147, -0.0062, -0.0384,  0.0531, -0.0384], grad_fn=<SliceBackward0>)
+Trend:
+tensor([-0.0026,  0.0525, -0.0222,  0.0266, -0.0196], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([-0.0112,  0.0217, -0.0427,  0.0283, -0.0325], grad_fn=<SliceBackward0>)
+Trend:
+tensor([ 0.0273,  0.0040,  0.0250,  0.0431, -0.0426], grad_fn=<SliceBackward0>)
+Seasonal:
+tensor([ 0.0429, -0.0441, -0.0408, -0.0311,  0.0441], grad_fn=<SliceBackward0>)
+>>>>>>>start training : ETTh2_336_720_1_FRLinear_ETTh2_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_4>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 7585
+val 2161
+test 2161
+	iters: 100, epoch: 1 | loss: 0.9670599
+	speed: 0.0149s/iter; left time: 69.1927s
+	iters: 200, epoch: 1 | loss: 1.1545471
+	speed: 0.0116s/iter; left time: 52.6337s
+Epoch: 1 cost time: 3.176792621612549
+Epoch: 1, Steps: 237 | Train Loss: 0.7968119 Vali Loss: 0.6972592 Test Loss: 0.7782168
+Validation loss decreased (inf --> 0.697259).  Saving model ...
+Updating learning rate to 0.005
+	iters: 100, epoch: 2 | loss: 0.7998163
+	speed: 0.0483s/iter; left time: 212.8457s
+	iters: 200, epoch: 2 | loss: 0.8624552
+	speed: 0.0136s/iter; left time: 58.4032s
+Epoch: 2 cost time: 3.389658212661743
+Epoch: 2, Steps: 237 | Train Loss: 0.7863147 Vali Loss: 0.7799548 Test Loss: 0.9409385
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.0025
+	iters: 100, epoch: 3 | loss: 0.5683585
+	speed: 0.0555s/iter; left time: 231.0655s
+	iters: 200, epoch: 3 | loss: 0.6074795
+	speed: 0.0118s/iter; left time: 48.1451s
+Epoch: 3 cost time: 3.7121644020080566
+Epoch: 3, Steps: 237 | Train Loss: 0.7265805 Vali Loss: 0.6831334 Test Loss: 0.8126951
+Validation loss decreased (0.697259 --> 0.683133).  Saving model ...
+Updating learning rate to 0.00125
+	iters: 100, epoch: 4 | loss: 0.5120270
+	speed: 0.0421s/iter; left time: 165.2569s
+	iters: 200, epoch: 4 | loss: 0.7533057
+	speed: 0.0118s/iter; left time: 45.3298s
+Epoch: 4 cost time: 3.179701328277588
+Epoch: 4, Steps: 237 | Train Loss: 0.7003402 Vali Loss: 0.6814941 Test Loss: 0.8351636
+Validation loss decreased (0.683133 --> 0.681494).  Saving model ...
+Updating learning rate to 0.000625
+	iters: 100, epoch: 5 | loss: 0.6266718
+	speed: 0.0481s/iter; left time: 177.8164s
+	iters: 200, epoch: 5 | loss: 0.6153427
+	speed: 0.0168s/iter; left time: 60.2831s
+Epoch: 5 cost time: 4.4336631298065186
+Epoch: 5, Steps: 237 | Train Loss: 0.6898529 Vali Loss: 0.6887112 Test Loss: 0.8817944
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 0.0003125
+	iters: 100, epoch: 6 | loss: 0.5574135
+	speed: 0.0441s/iter; left time: 152.2868s
+	iters: 200, epoch: 6 | loss: 0.6994650
+	speed: 0.0117s/iter; left time: 39.3628s
+Epoch: 6 cost time: 3.215139389038086
+Epoch: 6, Steps: 237 | Train Loss: 0.6834477 Vali Loss: 0.6987370 Test Loss: 0.9001176
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 0.00015625
+	iters: 100, epoch: 7 | loss: 0.5992897
+	speed: 0.0420s/iter; left time: 135.1958s
+	iters: 200, epoch: 7 | loss: 0.7709159
+	speed: 0.0136s/iter; left time: 42.4352s
+Epoch: 7 cost time: 3.6699206829071045
+Epoch: 7, Steps: 237 | Train Loss: 0.6804725 Vali Loss: 0.6935337 Test Loss: 0.8945295
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : ETTh2_336_720_1_FRLinear_ETTh2_ftM_sl336_ll48_pl720_dm512_nh8_el2_dl1_df2048_fc1_ebtimeF_dtTrue_Exp_4<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 2161
+mse:0.834439218044281, mae:0.6447051167488098

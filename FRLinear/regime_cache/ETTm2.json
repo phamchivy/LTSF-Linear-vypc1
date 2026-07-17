@@ -1,5 +1,8 @@
 {
     "trend": [
+        1,
+        2,
+        3,
         5
     ],
     "seasonal": [
@@ -7,10 +10,7 @@
         6
     ],
     "mixed": [
-        0,
-        1,
-        2,
-        3
+        0
     ],
     "detail": {
         "HUFL": {
@@ -23,19 +23,19 @@
             "index": 1,
             "trend_score": 0.8804468101871414,
             "seasonal_score": 0.0013773676177608334,
-            "regime": "mixed"
+            "regime": "trend"
         },
         "MUFL": {
             "index": 2,
             "trend_score": 0.8976415187072524,
             "seasonal_score": 0.001115720167010271,
-            "regime": "mixed"
+            "regime": "trend"
         },
         "MULL": {
             "index": 3,
             "trend_score": 0.8710387000557993,
             "seasonal_score": 0.0010112429941401524,
-            "regime": "mixed"
+            "regime": "trend"
         },
         "LUFL": {
             "index": 4,
@@ -54,6 +54,27 @@
             "trend_score": 0.8830554955124866,
             "seasonal_score": 0.005270470225776263,
             "regime": "seasonal"
+        }
+    },
+    "_debug_clustering": {
+        "centroids": [
+            [
+                0.6381732302598713,
+                0.08789864798029659
+            ],
+            [
+                0.7221871791349348,
+                0.8350600708295247
+            ],
+            [
+                0.0,
+                0.2374558353366277
+            ]
+        ],
+        "cluster_label_map": {
+            "trend_cluster": 0,
+            "seasonal_cluster": 1,
+            "mixed_cluster": 2
         }
     }
 }

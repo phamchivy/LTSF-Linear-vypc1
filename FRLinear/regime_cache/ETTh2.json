@@ -1,59 +1,80 @@
 {
     "trend": [
-        4
-    ],
-    "seasonal": [
-        6,
-        0
-    ],
-    "mixed": [
         1,
         2,
         3,
         5
+    ],
+    "seasonal": [
+        4,
+        6
+    ],
+    "mixed": [
+        0
     ],
     "detail": {
         "HUFL": {
             "index": 0,
             "trend_score": 0.6237210357399812,
             "seasonal_score": 0.001675241593709227,
-            "regime": "seasonal"
+            "regime": "mixed"
         },
         "HULL": {
             "index": 1,
             "trend_score": 0.800864949363803,
             "seasonal_score": 0.001368496382460248,
-            "regime": "mixed"
+            "regime": "trend"
         },
         "MUFL": {
             "index": 2,
             "trend_score": 0.8254454392141471,
             "seasonal_score": 0.0010883923973211789,
-            "regime": "mixed"
+            "regime": "trend"
         },
         "MULL": {
             "index": 3,
             "trend_score": 0.7913015042612515,
             "seasonal_score": 0.0009997681530230318,
-            "regime": "mixed"
+            "regime": "trend"
         },
         "LUFL": {
             "index": 4,
             "trend_score": 0.9262794658881627,
             "seasonal_score": 0.00386011395126363,
-            "regime": "trend"
+            "regime": "seasonal"
         },
         "LULL": {
             "index": 5,
             "trend_score": 0.9200005162306093,
             "seasonal_score": 0.0006546941613151597,
-            "regime": "mixed"
+            "regime": "trend"
         },
         "OT": {
             "index": 6,
             "trend_score": 0.8237714718252874,
             "seasonal_score": 0.005273230663997032,
             "regime": "seasonal"
+        }
+    },
+    "_debug_clustering": {
+        "centroids": [
+            [
+                0.6963351390483073,
+                0.08079260865386023
+            ],
+            [
+                0.8305980203349965,
+                0.847016829691306
+            ],
+            [
+                0.0,
+                0.22096770953341174
+            ]
+        ],
+        "cluster_label_map": {
+            "trend_cluster": 0,
+            "seasonal_cluster": 1,
+            "mixed_cluster": 2
         }
     }
 }

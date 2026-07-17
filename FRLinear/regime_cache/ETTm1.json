@@ -1,5 +1,6 @@
 {
     "trend": [
+        5,
         6
     ],
     "seasonal": [
@@ -9,8 +10,7 @@
     "mixed": [
         1,
         3,
-        4,
-        5
+        4
     ],
     "detail": {
         "HUFL": {
@@ -47,13 +47,34 @@
             "index": 5,
             "trend_score": 0.839179930266805,
             "seasonal_score": 0.003348647024938812,
-            "regime": "mixed"
+            "regime": "trend"
         },
         "OT": {
             "index": 6,
             "trend_score": 0.9533905480111943,
             "seasonal_score": 0.0011895675075286635,
             "regime": "trend"
+        }
+    },
+    "_debug_clustering": {
+        "centroids": [
+            [
+                0.9023969062724595,
+                0.004713659110805735
+            ],
+            [
+                0.011839822767135189,
+                0.7652901274224528
+            ],
+            [
+                0.462269062556042,
+                0.11056356255296018
+            ]
+        ],
+        "cluster_label_map": {
+            "trend_cluster": 0,
+            "seasonal_cluster": 1,
+            "mixed_cluster": 2
         }
     }
 }
